@@ -16,6 +16,8 @@ const TestSchema = new mongoose.Schema({
 const Test = mongoose.model('sales', TestSchema);
 
 const getTestController = asyncHandler ( async (req, res) => {
+    const a = req;
+    console.log(a);
     const docs = await Test.find({});
 
     res.status(200).json({

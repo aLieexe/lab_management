@@ -1,7 +1,7 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import { Equipment } from '../schema/equipment.js';
 
-
+//need to add query
 const getEquipment = asyncHandler (async (req, res) => {
     const equipmentDocs = await Equipment.find({});
 
@@ -37,19 +37,19 @@ const getEquipmentUsageCount = asyncHandler (async (req, res) => {
 
 const editEquipment = asyncHandler (async (req, res) => {
     const { id } = req.params;
-    const { last_used, last_maintenance, first_added } = req.body;
-
+    let { last_used, last_maintenance, first_added } = req.body;
     //neeed to parsed, date passed via req.body is a string
-    const parsedLastUsed = new Date(last_used);
-    const parsedLastMaintenance = new Date(last_maintenance);
-    const parsedFirstAdded = new Date(first_added);
+
+    last_used = new Date(last_used);
+    last_maintenance = new Date(last_maintenance);
+    first_added = new Date(first_added);
 
     //first check
-    if(parsedLastUsed < parsedFirstAdded){
+    if(last_used < first_added){
         return res.status(400).json({ error: 'last_used must be equal to or after first_added' });
     }
     
-    if(parsedLastMaintenance < parsedFirstAdded){
+    if(last_maintenance < first_added){
         return res.status(400).json({ error: 'last_maintenance must be equal to or after first_added' });
     }
 
@@ -62,15 +62,15 @@ const editEquipment = asyncHandler (async (req, res) => {
         return;
     }
 
-    console.log(docs.first_added);
-
     //second check
-    if(parsedLastUsed < docs.first_added){
-        return res.status(400).json({ error: 'last_used must be equal to or after first_added' });
-    }
-    
-    if(parsedLastMaintenance < docs.first_added){
-        return res.status(400).json({ error: 'last_maintenance must be equal to or after first_added' });
+    if(!('first_added' in req.body)){
+        if(last_used < docs.first_added){
+            return res.status(400).json({ error: 'last_used must be equal to or after first_added' });
+        }
+        
+        if(last_maintenance < docs.first_added){
+            return res.status(400).json({ error: 'last_maintenance must be equal to or after first_added' });
+        }
     }
 
 
@@ -108,15 +108,15 @@ const deleteEquipment = asyncHandler (async (req, res) => {
 
 
 const addEquipment = asyncHandler (async (req, res) => {
-    const { last_used, last_maintenance, first_added } = req.body;
-    const parsedLastUsed = new Date(last_used);
-    const parsedLastMaintenance = new Date(last_maintenance);
-    const parsedFirstAdded = new Date(first_added);
+    let { last_used, last_maintenance, first_added } = req.body;
+    last_used = new Date(last_used);
+    last_maintenance = new Date(last_maintenance);
+    first_added = new Date(first_added);
 
-    if(parsedLastUsed < parsedFirstAdded){
+    if(last_used < first_added){
         return res.status(400).json({ error: 'last_used must be equal to or after first_added' });
     }
-    if(parsedLastMaintenance < parsedFirstAdded){
+    if(last_maintenance < first_added){
         return res.status(400).json({ error: 'last_maintenance must be equal to or after first_added' });
     }
 
