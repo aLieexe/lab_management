@@ -28,13 +28,14 @@ const addTestController = asyncHandler ( async (req, res) => {
     const newDocs = new Test(req.body);
     const savedDocs = await newDocs.save();
     
-    const docs = await Test.find({});
+    await Test.find({});
 
     res.status(200).json({
         message: 'oke',
         data: savedDocs
     });
 })
+
 
 const getTestByIdController = asyncHandler ( async (req, res) => {
     const { id } = req.params;
