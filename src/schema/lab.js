@@ -9,18 +9,19 @@ const labSchema = new mongoose.Schema({
         major: { type: String, required: true },
         semester: { type: Number, required: true },
         contact: { type: String, required: true },
+        nim: { type: String, required: true }, 
     }],
     lab_staff: {
         name: { type: String, required: true },
-        contact: { type: String, required: true },       
-        deparment: { type: String, required: true },
-        email: { type: String, required: true }, 
+        contact: { type: String, required: true },
+        staff_id: { type: mongoose.Schema.Types.ObjectId, auto: true}
     },
     lab_kasublab: {
         name: { type: String, required: true },
         email: { type: String, required: true },
-        deparment: { type: String, required: true },
+        department: { type: String, required: true },
         contact: { type: String, required: true },
+        nip: { type: String, required: true },
     }, 
 }, { collection: 'lab' })
 

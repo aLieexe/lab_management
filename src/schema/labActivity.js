@@ -10,7 +10,7 @@ const labActivitySchema = new mongoose.Schema({
         user_name: { type: String, required: true },
         participant_count: { type: Number, required: true, default: 1 }
     }],
-    start_time: { type: Date, required: true, default: () => new Date() }, 
+    start_time: { type: Date, required: true, default: Date.now }, 
     end_time: { type: Date, required: true },
     equipment_used: [{
         equipment_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Equipment' },

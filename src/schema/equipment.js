@@ -6,8 +6,8 @@ const equipmentSchema = new mongoose.Schema({
     condition: { type: String, enum: ['Excellent', 'Good', 'Fair', 'Poor', 'Critical'], required: true},
     lab_id: { type: String, required: true },
     last_used: { type: Date, required: true },
-    first_added: { type: Date, required: true },
-    last_maintanance: { type: Date },
+    first_added: { type: Date, required: true, default: Date.now },
+    last_maintanance: { type: Date},
     description: { type: String, required: true},
 }, { collection: 'equipment' })
 
