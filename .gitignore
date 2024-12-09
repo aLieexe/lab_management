@@ -1,3 +1,4 @@
 node_modules
 .env
 notes.txt
+mongo-playground-1.mongodb.js
