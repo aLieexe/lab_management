@@ -1,0 +1,15 @@
+meta {
+  name: getEquipmentCountDesc
+  type: http
+  seq: 12
+}
+
+get {
+  url: http://localhost:{{PORT}}/equipment/count?sort=desc
+  body: none
+  auth: none
+}
+
+params:query {
+  sort: desc
+}

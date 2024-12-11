@@ -1,0 +1,16 @@
+meta {
+  name: getEquipmentByConditionAndLabId
+  type: http
+  seq: 10
+}
+
+get {
+  url: http://localhost:{{PORT}}/equipment?condition=Excellent&lab_id=L0002
+  body: none
+  auth: none
+}
+
+params:query {
+  condition: Excellent
+  lab_id: L0002
+}

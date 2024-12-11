@@ -1,11 +1,17 @@
 import asyncHandler from '../middleware/asyncHandler.js';
-import { Lab } from '../schema/lab.js';
 import { LabActivity } from '../schema/labActivity.js';
 
-
-//need to add query
 const getActivity = asyncHandler (async (req, res) => {
-    const activityDocs = await LabActivity.find({});
+    const { activity_type } = req.query;
+
+    let filter = {};
+
+    if(activity_type){
+        filter.activity_type = activity_type;
+    }
+
+    const activityDocs = await LabActivity.find(filter);
+    
 
     res.status(200).send({
         message: 'Data fetch successfull',

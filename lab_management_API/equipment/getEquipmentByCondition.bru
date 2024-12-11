@@ -1,0 +1,15 @@
+meta {
+  name: getEquipmentByCondition
+  type: http
+  seq: 9
+}
+
+get {
+  url: http://localhost:{{PORT}}/equipment?condition=Good
+  body: none
+  auth: none
+}
+
+params:query {
+  condition: Good
+}

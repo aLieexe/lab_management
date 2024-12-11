@@ -11,9 +11,9 @@ import express from "express";
 
 const router = express.Router();
 
+router.get('/count', getEquipmentUsageCount);
 router.get('/:id', getEquipmentById);
 router.get('/', getEquipment);
-router.get('/count', getEquipmentUsageCount);
 router.post('/', addEquipment);
 router.put('/:id', editEquipment);
 router.delete('/:id', deleteEquipment);

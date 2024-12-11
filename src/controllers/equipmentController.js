@@ -1,9 +1,22 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import { Equipment } from '../schema/equipment.js';
+import { LabActivity } from '../schema/labActivity.js';
 
-//need to add query
 const getEquipment = asyncHandler (async (req, res) => {
-    const equipmentDocs = await Equipment.find({});
+    const { condition, lab_id } = req.query
+
+    let filter = {}
+
+    if(condition){
+        filter.condition = condition;
+    }
+
+    if(lab_id){
+        filter.lab_id = lab_id;
+    }
+
+
+    const equipmentDocs = await Equipment.find(filter);
 
     res.status(200).send({
         message: 'Data fetch successfull',
@@ -29,10 +42,57 @@ const getEquipmentById = asyncHandler (async (req, res) => {
     });
 })
 
-//can asc, can desc, need to implement activity first
-const getEquipmentUsageCount = asyncHandler (async (req, res) => {
+const getEquipmentUsageCount = asyncHandler(async (req, res) => {
 
-})
+    const { sort } = req.query;
+
+    let sortDirection = 1;
+
+
+    if(sort){
+        sortDirection = req.query === 'desc' ? -1 : 1;
+    }
+
+    const equipmentUsageCounts = await LabActivity.aggregate([
+        { $unwind: "$equipment_used" },
+        {
+            $group: {
+                _id: "$equipment_used.equipment_id",
+                usageCount: { $sum: 1 },
+            },
+        },
+        {
+            $addFields: {
+                _id: { $toObjectId: "$_id" },
+            },
+        },
+        {
+            $lookup: {
+                from: "equipment",
+                localField: "_id",
+                foreignField: "_id",
+                as: "equipmentDetails",
+            },
+        },
+        {
+            $project: {
+                _id: 0,
+                equipmentId: "$_id",
+                usageCount: 1,
+                equipmentDetails: { $arrayElemAt: ["$equipmentDetails", 0] },
+            },
+        },
+        {   
+            // @ts-ignore
+            $sort: { usageCount: sortDirection}
+        }
+    ]);
+
+    res.status(200).json({
+        success: true,
+        data: equipmentUsageCounts,
+    });
+});
 
 
 const editEquipment = asyncHandler (async (req, res) => {

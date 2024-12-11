@@ -1,0 +1,15 @@
+meta {
+  name: getActivityByTypePublication
+  type: http
+  seq: 9
+}
+
+get {
+  url: http://localhost:{{PORT}}/activity?activity_type=Publication
+  body: none
+  auth: none
+}
+
+params:query {
+  activity_type: Publication
+}
