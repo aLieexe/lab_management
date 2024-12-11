@@ -1,0 +1,15 @@
+meta {
+  name: getEquipmentByLabId
+  type: http
+  seq: 8
+}
+
+get {
+  url: http://localhost:{{PORT}}/equipment?lab_id=L0002
+  body: none
+  auth: none
+}
+
+params:query {
+  lab_id: L0002
+}
